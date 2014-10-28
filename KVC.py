@@ -37,11 +37,12 @@ def average_flow():
     flow_times = 0
     i = 0
 
-    number_of_flows = int(input("How many flow times do you wish to enter? "))
+    number_of_flows = input("How many flow times do you wish to enter? ")
 
-    while number_of_flows <= 1:
-        print("You need to enter a positive number that is greater than 1 to calculate an average.")
-        number_of_flows = int(input("How many flow times do you wish to enter? "))
+    while number_of_flows.isalpha() or int(number_of_flows) <= 1:
+        print("Please enter a numeric value that is greater than 1")
+        number_of_flows = input("How many flow times do you wish to enter? ")
+    number_of_flows = int(number_of_flows)
 
     while i < number_of_flows:
         time = float(input("Please enter the flow time [{}]: ".format(i+1)))
@@ -62,20 +63,30 @@ def tube_constant():
 
 def reverse_calc_kv():
     """
-    This function will reverse calculate the KV result when provided with the corrected flow times and the new constant value.
+    This function will reverse calculate the KV result when provided with the corrected flow times and the new constant
+    value.
     """
     average_flow_time = average_flow()
-    tube_constant = float(input("What is the tube constant to be used? "))
+    tube_const = float(input("What is the tube constant to be used? "))
 
-    return round(float(average_flow_time * tube_constant), 4)
+    return round(float(average_flow_time * tube_const), 4)
 
 
 def kv_difference():
     """
     This function will calculate the difference, as a percentage, of the measured KV valve and the expected KV value
     """
-    measured_kv = float(input("What is the measured KV result? "))
-    expected_kv = float(input("What is the expected KV result? "))
+    measured_kv = input("What is the measured KV result? ")
+    while measured_kv.isalpha():
+        print("Please enter a numeric value")
+        measured_kv = input("What is the measured KV result? ")
+    measured_kv = float(measured_kv)
+
+    expected_kv = input("What is the expected KV result? ")
+    while expected_kv.isalpha():
+        print("Please enter a numeric value")
+        expected_kv = input("What is the expected KV result? ")
+    expected_kv = float(expected_kv)
 
     return round(float(abs(expected_kv - measured_kv) / expected_kv * 100), 2)
 
@@ -94,13 +105,10 @@ while selection != "q" or selection != "Q":
     elif selection == "4":
         print("\nThe difference between the measured and expected KV is: {}%".format(kv_difference()))
         input("\nPress enter key to continue...")
-    elif selection == "q" or selection =="Q":
+    elif selection == "q" or selection == "Q":
         print(selection)
         break
     else:
         print("{} is not a valid selection".format(selection))
 
     selection = menu_choices()
-
-
-
